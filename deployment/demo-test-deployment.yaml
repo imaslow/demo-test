@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo-deployment
+  name: demo-test-deployment
 spec:
   replicas: 1
   template:
@@ -10,8 +10,8 @@ spec:
         app: demo
     spec:
       containers:
-        - name: demo-pod
-          image: demo:latest
+        - name: demo-test-pod
+          image: demo-test:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: JAVA_OPTS
@@ -26,13 +26,13 @@ spec:
               containerPort: 5005
               protocol: TCP
           volumeMounts:
-            - name: demo-config
+            - name: demo-test-config
               mountPath: /config/application.yml
               subPath: application.yml
       volumes:
         - name: application-config
           configMap:
-            name: demo-config-map
+            name: demo-test-config-map
   selector:
     matchLabels:
-      app: demo
+      app: demo-test
