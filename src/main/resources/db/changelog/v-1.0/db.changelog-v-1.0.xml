@@ -4,22 +4,34 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="03-create-table-employee.sql" relativeToChangelogFile="true"/>
-
-    <changeSet id="1.0.1" author="maslov_ilya">
-        <tagDatabase tag="v-1.0-create-table-employee"/>
-    </changeSet>
-
     <include file="01-create-table-department.sql" relativeToChangelogFile="true"/>
 
-    <changeSet id="1.0.2" author="maslov_ilya">
+    <changeSet id="1.0.1" author="maslov_ilya">
         <tagDatabase tag="v-1.0-create-table-department"/>
     </changeSet>
 
     <include file="02-create-table-post.sql" relativeToChangelogFile="true"/>
 
-    <changeSet id="1.0.3" author="maslov_ilya">
+    <changeSet id="1.0.2" author="maslov_ilya">
         <tagDatabase tag="v-1.0-create-table-post"/>
+    </changeSet>
+
+    <include file="03-create-table-employee.sql" relativeToChangelogFile="true"/>
+
+    <changeSet id="1.0.3" author="maslov_ilya">
+        <tagDatabase tag="v-1.0-create-table-employee"/>
+    </changeSet>
+
+    <include file="04-alter-all-table.sql" relativeToChangelogFile="true"/>
+
+    <changeSet id="1.0.4" author="maslov_ilya">
+        <tagDatabase tag="v-1.0-alter-all-table"/>
+    </changeSet>
+
+    <include file="05-filling-all-table.sql" relativeToChangelogFile="true"/>
+
+    <changeSet id="1.0.5" author="maslov_ilya">
+        <tagDatabase tag="v-1.0-filling-all-table"/>
     </changeSet>
 
 

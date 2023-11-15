@@ -5,7 +5,7 @@ import com.example.demo.entities.Department;
 import com.example.demo.mappers.DepartmentMapper;
 import com.example.demo.repositories.DepartmentRepository;
 import com.example.demo.services.interfaces.DepartmentService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -5,7 +5,7 @@ import com.example.demo.entities.Post;
 import com.example.demo.mappers.PostMapper;
 import com.example.demo.repositories.PostRepository;
 import com.example.demo.services.interfaces.PostService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

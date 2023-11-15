@@ -1,13 +1,11 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.EmployeeDto;
-import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
-import com.example.demo.entities.Post;
 import com.example.demo.mappers.EmployeeMapper;
 import com.example.demo.repositories.EmployeeRepository;
 import com.example.demo.services.interfaces.EmployeeService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
