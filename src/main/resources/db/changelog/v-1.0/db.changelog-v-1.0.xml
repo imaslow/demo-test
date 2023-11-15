@@ -4,19 +4,19 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="01-create-table-employee.sql" relativeToChangelogFile="true"/>
+    <include file="03-create-table-employee.sql" relativeToChangelogFile="true"/>
 
     <changeSet id="1.0.1" author="maslov_ilya">
         <tagDatabase tag="v-1.0-create-table-employee"/>
     </changeSet>
 
-    <include file="02-create-table-department.sql" relativeToChangelogFile="true"/>
+    <include file="01-create-table-department.sql" relativeToChangelogFile="true"/>
 
     <changeSet id="1.0.2" author="maslov_ilya">
         <tagDatabase tag="v-1.0-create-table-department"/>
     </changeSet>
 
-    <include file="03-create-table-post.sql" relativeToChangelogFile="true"/>
+    <include file="02-create-table-post.sql" relativeToChangelogFile="true"/>
 
     <changeSet id="1.0.3" author="maslov_ilya">
         <tagDatabase tag="v-1.0-create-table-post"/>
