@@ -115,14 +115,14 @@ class EmployeeServiceImplTest {
 
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
 
-        Employee foundEmployee = employeeService.getEmployeeById(employeeId);
+        Optional<Employee> foundEmployee = employeeService.getEmployeeById(employeeId);
 
         assertNotNull(foundEmployee);
-        assertEquals(employeeId, foundEmployee.getId());
-        assertEquals(firstName, foundEmployee.getFirstName());
-        assertEquals(lastName, foundEmployee.getLastName());
-        assertEquals(middleName, foundEmployee.getMiddle_name());
-        assertEquals(birthDate, foundEmployee.getBirthDate());
+        assertEquals(employeeId, foundEmployee.get().getId());
+        assertEquals(firstName, foundEmployee.get().getFirstName());
+        assertEquals(lastName, foundEmployee.get().getLastName());
+        assertEquals(middleName, foundEmployee.get().getMiddle_name());
+        assertEquals(birthDate, foundEmployee.get().getBirthDate());
     }
 
     @Test

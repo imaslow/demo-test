@@ -80,11 +80,11 @@ class PostServiceImplTest {
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
 
-        Post foundPost = postService.getPostById(postId);
+        Optional<Post> foundPost = postService.getPostById(postId);
 
         assertNotNull(foundPost);
-        assertEquals(postId, foundPost.getId());
-        assertEquals(postName, foundPost.getPostName());
+        assertEquals(postId, foundPost.get().getId());
+        assertEquals(postName, foundPost.get().getPostName());
     }
 
     @Test

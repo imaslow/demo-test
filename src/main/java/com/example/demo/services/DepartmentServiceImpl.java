@@ -38,8 +38,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDepartmentById(Long id) {
-        return departmentRepository.getDepartmentById(id);
+    public Optional<Department> getDepartmentById(Long id) {
+        return departmentRepository.findById(id);
     }
 
     @Override

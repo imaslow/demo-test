@@ -77,11 +77,11 @@ class DepartmentServiceImplTest {
 
         when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
 
-        Department foundDepartment = departmentService.getDepartmentById(departmentId);
+        Optional<Department> foundDepartment = departmentService.getDepartmentById(departmentId);
 
         assertNotNull(foundDepartment);
-        assertEquals(departmentId, foundDepartment.getId());
-        assertEquals(departmentName, foundDepartment.getDepartmentName());
+        assertEquals(departmentId, foundDepartment.get().getId());
+        assertEquals(departmentName, foundDepartment.get().getDepartmentName());
     }
 
     @Test
