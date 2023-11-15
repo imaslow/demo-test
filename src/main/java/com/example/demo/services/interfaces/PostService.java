@@ -12,7 +12,7 @@ public interface PostService {
 
     Post updatePost(Long id, PostDto postDto);
 
-    Optional<Post> getPostById(Long id);
+    Post getPostById(Long id);
 
     List<Post> getAllPosts();
 

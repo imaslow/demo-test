@@ -1,10 +1,10 @@
 -- changeset ilya_maslov :1.0.5
-INSERT INTO department (departmentName)
+INSERT INTO department (department_name)
 VALUES ('RISKI'),
        ('BIGDATA'),
        ('TECH');
 
-INSERT INTO post (postName)
+INSERT INTO post (post_name)
 VALUES ('JUNIOR'),
        ('MIDDLE'),
        ('SENIOR');

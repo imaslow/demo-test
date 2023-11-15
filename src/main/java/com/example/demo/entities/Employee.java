@@ -40,4 +40,7 @@ public class Employee {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public Employee(long id, String lastName, String firstName, String middle_name, LocalDate birthDate) {
+    }
 }

@@ -21,9 +21,12 @@ public class Post {
     @SequenceGenerator(name = "seq_post", initialValue = 10, allocationSize = 1)
     private Long id;
 
-    @Column(name = "postName")
+    @Column(name = "post_name")
     private String postName;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Employee> postList;
+
+    public Post(long id, String postName) {
+    }
 }

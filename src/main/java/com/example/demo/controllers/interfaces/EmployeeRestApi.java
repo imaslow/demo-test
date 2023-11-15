@@ -63,7 +63,7 @@ public interface EmployeeRestApi {
 
     @ApiOperation(value = "Get Employee by department and post")
     @ApiResponse(code = 200, message = "Found the employee")
-    @GetMapping()
+    @GetMapping("/filtered")
     ResponseEntity<List<Employee>> getEmployeeDtoByDepartmentAndPost(
             @RequestParam(value = "department", required = false) String department,
             @RequestParam(value = "post", required = false) String post);

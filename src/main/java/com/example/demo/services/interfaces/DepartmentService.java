@@ -12,7 +12,7 @@ public interface DepartmentService {
 
     Department updateDepartment(Long id, DepartmentDto departmentDto);
 
-    Optional<Department> getDepartmentById(Long id);
+    Department getDepartmentById(Long id);
 
     List<Department> getAllDepartment();
 

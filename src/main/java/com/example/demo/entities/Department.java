@@ -21,9 +21,12 @@ public class Department {
     @SequenceGenerator(name = "seq_department", initialValue = 10, allocationSize = 1)
     private Long id;
 
-    @Column(name = "departmentName")
+    @Column(name = "department_name")
     private String departmentName;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employeeList;
+
+    public Department(long id, String departmentName) {
+    }
 }
