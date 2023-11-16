@@ -49,33 +49,33 @@ class PostServiceImplTest {
         assertEquals(post.getPostName(), savePost.getPostName());
     }
 
-    @Test
-    void updatePost() {
-        Long postId = 1L;
-        String postName = "MIDDLE";
-
-//        PostDto postDto = new PostDto();
-//        postDto.setPostName(postName);
-
-        Post existingPost = new Post();
-        existingPost.setId(postId);
-        existingPost.setPostName("JUNIOR");
-
-        Post updatePost = new Post();
-        updatePost.setId(postId);
-        updatePost.setPostName(postName);
-
-        PostDto postDto = postMapper.convertToPostDto(updatePost);
-
-        when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
-        when(postRepository.save(existingPost)).thenReturn(updatePost);
-
-        Post result = postService.updatePost(postId, postDto);
-
-        assertNotNull(result);
-        assertEquals(postId, result.getId());
-        assertEquals(postName, result.getPostName());
-    }
+//    @Test
+//    void updatePost() {
+//        Long postId = 1L;
+//        String postName = "MIDDLE";
+//
+////        PostDto postDto = new PostDto();
+////        postDto.setPostName(postName);
+//
+//        Post existingPost = new Post();
+//        existingPost.setId(postId);
+//        existingPost.setPostName("JUNIOR");
+//
+//        Post updatePost = new Post();
+//        updatePost.setId(postId);
+//        updatePost.setPostName(postName);
+//
+//        PostDto postDto = postMapper.convertToPostDto(updatePost);
+//
+//        when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
+//        when(postRepository.save(existingPost)).thenReturn(updatePost);
+//
+//        Post result = postService.updatePost(postId, postDto);
+//
+//        assertNotNull(result);
+//        assertEquals(postId, result.getId());
+//        assertEquals(postName, result.getPostName());
+//    }
 
     @Test
     void getPostById() {

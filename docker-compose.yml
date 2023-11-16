@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: 'ilyamaslov/demo-test:1.0.0'
+    image: 'demo-test:1.0.0'
     build:
       context: .
       dockerfile: Dockerfile
