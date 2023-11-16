@@ -19,5 +19,5 @@ services:
     container_name: db
     environment:
       - POSTGRES_DB=demo-test
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
