@@ -1,10 +1,8 @@
 package com.example.demo.entities;
 
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.util.List;
 
@@ -14,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Department {
 
     @Id
@@ -26,6 +25,4 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employeeList;
 
-    public Department(long id, String departmentName) {
-    }
 }

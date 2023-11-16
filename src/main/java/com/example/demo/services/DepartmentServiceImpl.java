@@ -28,7 +28,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department updateDepartment(Long id, DepartmentDto departmentDto) {
-
         Department editDepartment = departmentMapper.convertToDepartment(departmentDto);
         editDepartment.setId(id);
         if(editDepartment.getDepartmentName() == null) {

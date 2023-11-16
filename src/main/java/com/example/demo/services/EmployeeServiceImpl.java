@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployeeByDepartmentAndPost(String departmentName, String postName) {
-        return employeeRepository.findEmployeesByDepartment_DepartmentNameAndPost_PostName(departmentName, postName);
+        return employeeRepository.findByDepartmentAndPost(departmentName, postName);
     }
 
     @Override

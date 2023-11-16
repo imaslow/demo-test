@@ -49,33 +49,32 @@ class PostServiceImplTest {
         assertEquals(post.getPostName(), savePost.getPostName());
     }
 
-//    @Test
-//    void updatePost() {
-//        Long postId = 1L;
-//        String postName = "MIDDLE";
-//
-////        PostDto postDto = new PostDto();
-////        postDto.setPostName(postName);
-//
-//        Post existingPost = new Post();
-//        existingPost.setId(postId);
-//        existingPost.setPostName("JUNIOR");
-//
-//        Post updatePost = new Post();
-//        updatePost.setId(postId);
-//        updatePost.setPostName(postName);
-//
-//        PostDto postDto = postMapper.convertToPostDto(updatePost);
-//
-//        when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
-//        when(postRepository.save(existingPost)).thenReturn(updatePost);
-//
-//        Post result = postService.updatePost(postId, postDto);
-//
-//        assertNotNull(result);
-//        assertEquals(postId, result.getId());
-//        assertEquals(postName, result.getPostName());
-//    }
+    @Test
+    void updatePost() {
+        Long postId = 1L;
+        String postName = "MIDDLE";
+
+        Post existingPost = new Post();
+        existingPost.setId(postId);
+        existingPost.setPostName("JUNIOR");
+
+        Post updatePost = new Post();
+        updatePost.setId(postId);
+        updatePost.setPostName(postName);
+
+        //PostDto postDto = postMapper.convertToPostDto(updatePost);
+
+        when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
+        when(postRepository.save(existingPost)).thenReturn(updatePost);
+
+        PostDto postDto = postMapper.convertToPostDto(updatePost);
+
+        Post result = postService.updatePost(postId, postDto);
+
+        assertNotNull(result);
+        assertEquals(postId, result.getId());
+        assertEquals(postName, result.getPostName());
+    }
 
     @Test
     void getPostById() {
@@ -98,9 +97,15 @@ class PostServiceImplTest {
     @Test
     void getAllPosts() {
         List<Post> posts = new ArrayList<>();
-        posts.add(new Post(0L, "JUNIOR"));
-        posts.add(new Post(1L, "MIDDLE"));
-        posts.add(new Post(2L, "SENIOR"));
+
+        Post post = Post.builder().id(0L).postName("JUNIOR").build();
+        Post post1 = Post.builder().id(1L).postName("MIDDLE").build();
+        Post post2 = Post.builder().id(2L).postName("SENIOR").build();
+
+        posts.add(post);
+        posts.add(post1);
+        posts.add(post2);
+
         when(postService.getAllPosts()).thenReturn(posts);
 
         List<Post> result = postRepository.findAll();

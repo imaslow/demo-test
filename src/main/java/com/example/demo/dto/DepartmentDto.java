@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class DepartmentDto {
 
     private Long id;
@@ -21,6 +20,6 @@ public class DepartmentDto {
 
     private List<Employee> employeeList;
 
-    public DepartmentDto(Department saveDepartment) {
+    public DepartmentDto(Department department) {
     }
 }

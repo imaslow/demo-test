@@ -29,12 +29,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post updatePost(Long id, PostDto postDto) {
 
-        Post editPost = postRepository.getPostById(id);
-        Post post = postMapper.convertToPost(postDto);
-
-        editPost.setPostName(post.getPostName());
-
-        return editPost;
+        Post editPost = postMapper.convertToPost(postDto);
+        editPost.setId(id);
+        if(editPost.getPostName() == null) {
+            editPost.setPostName(postRepository.getPostById(id).getPostName());
+        }
+        return postRepository.save(editPost);
     }
 
     @Override

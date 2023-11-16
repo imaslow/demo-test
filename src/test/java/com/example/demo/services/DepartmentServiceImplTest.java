@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.dto.DepartmentDto;
 import com.example.demo.entities.Department;
+import com.example.demo.entities.Post;
 import com.example.demo.mappers.DepartmentMapper;
 import com.example.demo.repositories.DepartmentRepository;
 import org.junit.jupiter.api.Test;
@@ -45,30 +46,30 @@ class DepartmentServiceImplTest {
         assertEquals(department.getDepartmentName(), saveDepartment.getDepartmentName());
     }
 
-//    @Test
-//    void updateDepartment() {
-//        Long departmentId = 1L;
-//        String departmentName = "TECH";
-//
-//        Department existingDepartment = new Department();
-//        existingDepartment.setId(departmentId);
-//        existingDepartment.setDepartmentName("RISKI");
-//
-//        DepartmentDto departmentDto = departmentMapper.convertToDepartmentDto(Optional.of(existingDepartment));
-//
-//        Department updateDepartment = new Department();
-//        updateDepartment.setId(departmentId);
-//        updateDepartment.setDepartmentName(departmentName);
-//
-//        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(existingDepartment));
-//        when(departmentRepository.save(existingDepartment)).thenReturn(updateDepartment);
-//
-//        Department result = departmentService.updateDepartment(departmentId, departmentDto);
-//
-//        assertNotNull(result);
-//        assertEquals(departmentId, result.getId());
-//        assertEquals(departmentName, result.getDepartmentName());
-//    }
+    @Test
+    void updateDepartment() {
+        Long departmentId = 1L;
+        String departmentName = "TECH";
+
+        Department existingDepartment = new Department();
+        existingDepartment.setId(departmentId);
+        existingDepartment.setDepartmentName("RISKI");
+
+        DepartmentDto departmentDto = departmentMapper.convertToDepartmentDto(Optional.of(existingDepartment));
+
+        Department updateDepartment = new Department();
+        updateDepartment.setId(departmentId);
+        updateDepartment.setDepartmentName(departmentName);
+
+        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(existingDepartment));
+        when(departmentRepository.save(existingDepartment)).thenReturn(updateDepartment);
+
+        Department result = departmentService.updateDepartment(departmentId, departmentDto);
+
+        assertNotNull(result);
+        assertEquals(departmentId, result.getId());
+        assertEquals(departmentName, result.getDepartmentName());
+    }
 
     @Test
     void getDepartmentById() {
@@ -91,9 +92,15 @@ class DepartmentServiceImplTest {
     @Test
     void getAllDepartment() {
         List<Department> departments = new ArrayList<>();
-        departments.add(new Department(0L, "RISKI"));
-        departments.add(new Department(1L, "BIGDATA"));
-        departments.add(new Department(2L, "TECH"));
+
+        Department department = Department.builder().id(0L).departmentName("RISKI").build();
+        Department department1 = Department.builder().id(1L).departmentName("BIGDATA").build();
+        Department department2 = Department.builder().id(2L).departmentName("TECH").build();
+
+        departments.add(department);
+        departments.add(department1);
+        departments.add(department2);
+
         when(departmentService.getAllDepartment()).thenReturn(departments);
 
         List<Department> result = departmentRepository.findAll();

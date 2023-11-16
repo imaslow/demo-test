@@ -1,10 +1,8 @@
 package com.example.demo.entities;
 
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Employee {
 
     @Id
@@ -40,6 +39,4 @@ public class Employee {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public Employee(long id, String lastName, String firstName, String middle_name, LocalDate birthDate) {
-    }
 }

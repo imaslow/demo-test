@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class EmployeeDto {
 
     private Long id;
