@@ -19,7 +19,7 @@ public interface EmployeeService {
 
     List<Employee> getAllEmployee();
 
-    List<Employee> getAllEmployeeByDepartmentAndPost(String department, String post);
+    List<Employee> getAllEmployeeByDepartmentAndPost(String departmentName, String postName);
 
     void deleteEmployeeById(Long id);
 }

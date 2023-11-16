@@ -4,9 +4,12 @@ import com.example.demo.dto.DepartmentDto;
 import com.example.demo.dto.PostDto;
 import com.example.demo.entities.Department;
 import com.example.demo.entities.Post;
+import com.example.demo.mappers.DepartmentMapper;
+import com.example.demo.mappers.PostMapper;
 import com.example.demo.repositories.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,13 +30,16 @@ class PostServiceImplTest {
     @InjectMocks
     private PostServiceImpl postService;
 
+    @Mock
+    private final PostMapper postMapper = Mappers.getMapper(PostMapper.class);
+
     @Test
     void savePost() {
-        PostDto postDto = new PostDto();
-        postDto.setPostName("JUNIOR");
 
         Post post = new Post();
         post.setPostName("JUNIOR");
+
+        PostDto postDto = postMapper.convertToPostDto(post);
 
         when(postService.savePost(postDto)).thenReturn(post);
 
@@ -48,8 +54,8 @@ class PostServiceImplTest {
         Long postId = 1L;
         String postName = "MIDDLE";
 
-        PostDto postDto = new PostDto();
-        postDto.setPostName(postName);
+//        PostDto postDto = new PostDto();
+//        postDto.setPostName(postName);
 
         Post existingPost = new Post();
         existingPost.setId(postId);
@@ -58,6 +64,8 @@ class PostServiceImplTest {
         Post updatePost = new Post();
         updatePost.setId(postId);
         updatePost.setPostName(postName);
+
+        PostDto postDto = postMapper.convertToPostDto(updatePost);
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
         when(postRepository.save(existingPost)).thenReturn(updatePost);
@@ -105,16 +113,10 @@ class PostServiceImplTest {
 
     @Test
     void deletePostById() {
-        Long postId = 2L;
+        Long departmentId = 2L;
 
-        Post existingPost = new Post();
-        existingPost.setId(postId);
-        existingPost.setPostName("TECH");
+        postService.deletePostById(departmentId);
 
-        when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
-
-        postService.deletePostById(postId);
-
-        verify(postRepository, times(2)).delete(existingPost);
+        verify(postRepository, times(1)).deleteById(departmentId);
     }
 }

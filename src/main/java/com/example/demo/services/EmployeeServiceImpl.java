@@ -1,7 +1,9 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.EmployeeDto;
+import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
+import com.example.demo.entities.Post;
 import com.example.demo.mappers.EmployeeMapper;
 import com.example.demo.repositories.EmployeeRepository;
 import com.example.demo.services.interfaces.EmployeeService;
@@ -54,8 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllEmployeeByDepartmentAndPost(String department, String post) {
-        return employeeRepository.findByDepartmentAndPost(department, post);
+    public List<Employee> getAllEmployeeByDepartmentAndPost(String departmentName, String postName) {
+        return employeeRepository.findEmployeesByDepartment_DepartmentNameAndPost_PostName(departmentName, postName);
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.example.demo.services;
 
 import com.example.demo.dto.DepartmentDto;
 import com.example.demo.entities.Department;
+import com.example.demo.mappers.DepartmentMapper;
 import com.example.demo.repositories.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,13 +26,16 @@ class DepartmentServiceImplTest {
 
     @InjectMocks
     private DepartmentServiceImpl departmentService;
+
+    @Mock
+    private final DepartmentMapper departmentMapper = Mappers.getMapper(DepartmentMapper.class);
     @Test
     void saveDepartment() {
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setDepartmentName("RISKI");
 
         Department department = new Department();
         department.setDepartmentName("RISKI");
+
+        DepartmentDto departmentDto = departmentMapper.convertToDepartmentDto(Optional.of(department));
 
         when(departmentService.saveDepartment(departmentDto)).thenReturn(department);
 
@@ -45,12 +50,11 @@ class DepartmentServiceImplTest {
         Long departmentId = 1L;
         String departmentName = "TECH";
 
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setDepartmentName(departmentName);
-
         Department existingDepartment = new Department();
         existingDepartment.setId(departmentId);
         existingDepartment.setDepartmentName("RISKI");
+
+        DepartmentDto departmentDto = departmentMapper.convertToDepartmentDto(Optional.of(existingDepartment));
 
         Department updateDepartment = new Department();
         updateDepartment.setId(departmentId);
@@ -104,14 +108,8 @@ class DepartmentServiceImplTest {
     void deleteDepartmentById() {
         Long departmentId = 2L;
 
-        Department existingDepartment = new Department();
-        existingDepartment.setId(departmentId);
-        existingDepartment.setDepartmentName("TECH");
-
-        when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(existingDepartment));
-
         departmentService.deleteDepartmentById(departmentId);
 
-        verify(departmentRepository, times(2)).delete(existingDepartment);
+        verify(departmentRepository, times(1)).deleteById(departmentId);
     }
 }

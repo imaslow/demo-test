@@ -2,7 +2,9 @@ package com.example.demo.controllers;
 
 import com.example.demo.controllers.interfaces.EmployeeRestApi;
 import com.example.demo.dto.EmployeeDto;
+import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
+import com.example.demo.entities.Post;
 import com.example.demo.services.interfaces.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,14 +52,14 @@ public class EmployeeRestController implements EmployeeRestApi {
     }
 
     @Override
-    public ResponseEntity<List<Employee>> getEmployeeDtoByDepartmentAndPost(String department, String post) {
+    public ResponseEntity<List<Employee>> getEmployeeDtoByDepartmentAndPost(String departmentName, String postName) {
         List<Employee> employees;
-        if (department == null && post == null) {
+        if (departmentName == null && postName == null) {
             employees = employeeService.getAllEmployee();
             log.info("getAll: get all Employee");
         } else {
             log.info("filter: filter Employee by department and post");
-            employees = employeeService.getAllEmployeeByDepartmentAndPost(department, post);
+            employees = employeeService.getAllEmployeeByDepartmentAndPost(departmentName, postName);
         }
         log.info("employee isEmpty");
         return employees.isEmpty()

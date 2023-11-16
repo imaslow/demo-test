@@ -1,7 +1,9 @@
 package com.example.demo.controllers.interfaces;
 
 import com.example.demo.dto.EmployeeDto;
+import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
+import com.example.demo.entities.Post;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -65,8 +67,8 @@ public interface EmployeeRestApi {
     @ApiResponse(code = 200, message = "Found the employee")
     @GetMapping("/filtered")
     ResponseEntity<List<Employee>> getEmployeeDtoByDepartmentAndPost(
-            @RequestParam(value = "department", required = false) String department,
-            @RequestParam(value = "post", required = false) String post);
+            @RequestParam(value = "departmentName", required = false) String departmentName,
+            @RequestParam(value = "postName", required = false) String postName);
 
 
 
