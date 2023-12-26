@@ -22,7 +22,4 @@ public class Post {
     @Column(name = "post_name")
     private String postName;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Employee> postList;
-
 }

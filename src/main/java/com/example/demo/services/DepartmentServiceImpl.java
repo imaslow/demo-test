@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -38,12 +39,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Optional<Department> getDepartmentById(Long id) {
-        return departmentRepository.findById(id);
+        return Optional.ofNullable(departmentRepository.getDepartmentById(id));
     }
 
     @Override
-    public List<Department> getAllDepartment() {
-        return departmentRepository.findAll();
+    public List<DepartmentDto> getAllDepartments() {
+        return departmentRepository.findAll().stream()
+                .map(departmentMapper::convertToDepartmentDto).collect(Collectors.toList());
     }
 
     @Override

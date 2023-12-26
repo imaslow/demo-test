@@ -11,7 +11,7 @@ import java.util.Optional;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface DepartmentMapper {
 
-    DepartmentDto convertToDepartmentDto(Optional<Department> department);
+    DepartmentDto convertToDepartmentDto(Department department);
 
     Department convertToDepartment(DepartmentDto departmentDto);
 }

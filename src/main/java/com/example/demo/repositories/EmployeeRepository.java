@@ -14,7 +14,6 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Employee getEmployeeById(Long id);
+    Employee findEmployeeByDepartmentDepartmentNameAndPostPostName(String department, String post);
 
-    @Query(value = "SELECT e FROM Employee e WHERE e.department.departmentName = :departmentName AND e.post.postName = :postName")
-    List<Employee> findByDepartmentAndPost(@Param("departmentName")String departmentName, @Param("postName") String postName);
 }

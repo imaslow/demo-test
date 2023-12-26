@@ -22,7 +22,4 @@ public class Department {
     @Column(name = "department_name")
     private String departmentName;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private List<Employee> employeeList;
-
 }

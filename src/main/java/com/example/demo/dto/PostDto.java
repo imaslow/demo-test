@@ -19,8 +19,8 @@ public class PostDto {
 
     private String postName;
 
-    private List<Employee> postList;
+//    private List<Employee> postList;
 
-    public PostDto(Post post) {
-    }
+//    public PostDto(Post post) {
+//    }
 }

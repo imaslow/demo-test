@@ -3,6 +3,7 @@ package com.example.demo.controllers.interfaces;
 import com.example.demo.dto.PostDto;
 import com.example.demo.entities.Post;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public interface PostRestApi {
             @ApiResponse(code = 400, message = "Post not found")
     })
     @GetMapping
-    ResponseEntity<List<Post>> getAllPosts();
+    ResponseEntity<List<PostDto>> getAllPosts();
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get Post by \"id\"")
@@ -64,7 +65,7 @@ public interface PostRestApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Post deleted"),
             @ApiResponse(code = 404, message = "Post not found")})
-    ResponseEntity<Void> deletePostById(
+    ResponseEntity<HttpStatus> deletePostById(
             @ApiParam(
                     name = "id",
                     value = "Post.id"

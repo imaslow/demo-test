@@ -3,6 +3,7 @@ package com.example.demo.controllers.interfaces;
 import com.example.demo.dto.DepartmentDto;
 import com.example.demo.entities.Department;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public interface DepartmentRestApi {
             @ApiResponse(code = 400, message = "Department not found")
     })
     @GetMapping
-    ResponseEntity<List<Department>> getAllDepartments();
+    ResponseEntity<List<DepartmentDto>> getAllDepartments();
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get Department by \"id\"")
@@ -35,7 +36,7 @@ public interface DepartmentRestApi {
     @PostMapping
     @ApiOperation(value = "Create Department")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Department created")})
-    ResponseEntity<DepartmentDto> createDepartmentDto(
+    ResponseEntity<DepartmentDto> createDepartment(
             @ApiParam(
                     name = "Department",
                     value = "Department model"
@@ -64,7 +65,7 @@ public interface DepartmentRestApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Department deleted"),
             @ApiResponse(code = 404, message = "Department not found")})
-    ResponseEntity<Void> deleteDepartmentById(
+    ResponseEntity<HttpStatus> deleteDepartmentById(
             @ApiParam(
                     name = "id",
                     value = "Department.id"

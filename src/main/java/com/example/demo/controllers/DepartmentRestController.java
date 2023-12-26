@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.controllers.interfaces.DepartmentRestApi;
 import com.example.demo.dto.DepartmentDto;
 import com.example.demo.entities.Department;
+import com.example.demo.mappers.DepartmentMapper;
 import com.example.demo.services.interfaces.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +20,12 @@ import java.util.Optional;
 public class DepartmentRestController implements DepartmentRestApi {
 
     private final DepartmentService departmentService;
+    private final DepartmentMapper departmentMapper;
 
     @Override
-    public ResponseEntity<List<Department>> getAllDepartments() {
+    public ResponseEntity<List<DepartmentDto>> getAllDepartments() {
         log.info("getAll: get all Departments");
-        List<Department> departments = departmentService.getAllDepartment();
+        List<DepartmentDto> departments = departmentService.getAllDepartments();
         return departments.isEmpty()
                 ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(departments, HttpStatus.OK);
@@ -33,33 +35,41 @@ public class DepartmentRestController implements DepartmentRestApi {
     public ResponseEntity<DepartmentDto> getDepartmentDtoById(Long id) {
         log.info("getById: get Department by id. id = {}", id);
         Optional<Department> department = departmentService.getDepartmentById(id);
-        return department.isEmpty()
-                ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-                : new ResponseEntity<>(new DepartmentDto(department.get()), HttpStatus.OK);
+        if (department.isEmpty()) {
+            log.info("getById: not found Department with id = {}", id);
+            new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+                return new ResponseEntity<>(departmentMapper.convertToDepartmentDto(department.get()), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<DepartmentDto> createDepartmentDto(DepartmentDto departmentDto) {
+    public ResponseEntity<DepartmentDto> createDepartment(DepartmentDto departmentDto) {
         log.info("create: create new Department {}", departmentDto);
-        return ResponseEntity.ok(new DepartmentDto(departmentService.saveDepartment(departmentDto)));
+        return new ResponseEntity<>(departmentMapper.convertToDepartmentDto(departmentService.saveDepartment(departmentDto)),
+                HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<DepartmentDto> updateDepartmentDtoById(Long id, DepartmentDto departmentDto) {
+        if (departmentService.getDepartmentById(id).isEmpty()) {
+            log.error("update: Department with id={} doesn't exist.", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         log.info("update: update Department with id = {}", id);
-        return new ResponseEntity<>(new DepartmentDto(departmentService.updateDepartment(id, departmentDto)), HttpStatus.OK);
+        return new ResponseEntity<>(departmentMapper.convertToDepartmentDto(departmentService.updateDepartment(id, departmentDto)), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> deleteDepartmentById(Long id) {
-        log.info("deleteDepartmentById: deleteDepartmentById Department with id = {}", id);
-        Optional<Department> department = departmentService.getDepartmentById(id);
-        if (department.isEmpty()) {
+    public ResponseEntity<HttpStatus> deleteDepartmentById(Long id) {
+        log.info("deleteDepartmentById: deleting a Department with id = {}", id);
+        try {
+            departmentService.deleteDepartmentById(id);
+        } catch (Exception e) {
+            log.error("deleteDepartmentById: error of deleting - Department with id = {} not found", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        departmentService.deleteDepartmentById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
 

@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.DepartmentDto;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -51,13 +53,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllEmployee() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> getAllEmployee() {
+        return employeeRepository.findAll().stream()
+                .map(employeeMapper::convertToEmployeeDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<Employee> getAllEmployeeByDepartmentAndPost(String departmentName, String postName) {
-        return employeeRepository.findByDepartmentAndPost(departmentName, postName);
+    public Employee findEmployeeByDepartmentAndPost(String departmentName, String postName) {
+        return employeeRepository.findEmployeeByDepartmentDepartmentNameAndPostPostName(departmentName, postName);
     }
 
     @Override

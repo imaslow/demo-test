@@ -18,8 +18,8 @@ public class DepartmentDto {
 
     private String departmentName;
 
-    private List<Employee> employeeList;
-
-    public DepartmentDto(Department department) {
-    }
+//    public DepartmentDto(Department department) {
+//        this.id = department.getId();
+//        this.departmentName = department.getDepartmentName();
+//    }
 }

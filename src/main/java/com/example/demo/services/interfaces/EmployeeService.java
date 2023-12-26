@@ -17,9 +17,9 @@ public interface EmployeeService {
 
     Optional<Employee> getEmployeeById(Long id);
 
-    List<Employee> getAllEmployee();
+    List<EmployeeDto> getAllEmployee();
 
-    List<Employee> getAllEmployeeByDepartmentAndPost(String departmentName, String postName);
+    Employee findEmployeeByDepartmentAndPost(String departmentName, String postName);
 
     void deleteEmployeeById(Long id);
 }

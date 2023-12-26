@@ -29,6 +29,6 @@ public class EmployeeDto {
 
     private Post post;
 
-    public EmployeeDto(Employee employee) {
-    }
+//    public EmployeeDto(Employee employee) {
+//    }
 }

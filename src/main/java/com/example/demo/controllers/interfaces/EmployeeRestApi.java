@@ -7,6 +7,7 @@ import com.example.demo.entities.Post;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public interface EmployeeRestApi {
             @ApiResponse(code = 400, message = "Employee not found")
     })
     @GetMapping
-    ResponseEntity<List<Employee>> getAllEmployee();
+    ResponseEntity<List<EmployeeDto>> getAllEmployee();
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get Employee by \"id\"")
@@ -66,11 +67,9 @@ public interface EmployeeRestApi {
     @ApiOperation(value = "Get Employee by department and post")
     @ApiResponse(code = 200, message = "Found the employee")
     @GetMapping("/filtered")
-    ResponseEntity<List<Employee>> getEmployeeDtoByDepartmentAndPost(
-            @RequestParam(value = "departmentName", required = false) String departmentName,
-            @RequestParam(value = "postName", required = false) String postName);
-
-
+    ResponseEntity<EmployeeDto> getEmployeeDtoByDepartmentAndPost(
+            @RequestParam(value = "departmentName") String departmentName,
+            @RequestParam(value = "postName") String postName);
 
 
     @DeleteMapping("/{id}")
@@ -78,7 +77,7 @@ public interface EmployeeRestApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Employee deleted"),
             @ApiResponse(code = 404, message = "Employee not found")})
-    ResponseEntity<Void> deleteEmployeeById(
+    ResponseEntity<HttpStatus> deleteEmployeeById(
             @ApiParam(
                     name = "id",
                     value = "Employee.id"

@@ -16,12 +16,12 @@ spring:
     name: demo-test
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/demo-test
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: root
 
