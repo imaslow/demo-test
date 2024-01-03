@@ -1,22 +1,18 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.EmployeeDto;
-import com.example.demo.dto.PostDto;
 import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
 import com.example.demo.entities.Post;
 import com.example.demo.mappers.EmployeeMapper;
-import com.example.demo.mappers.PostMapper;
 import com.example.demo.repositories.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +23,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceImplTest {
 
-    private final LocalDate birthDateIvan = LocalDate.parse("1993-01-12");
-    private final LocalDate birthDatePetr = LocalDate.parse("1997-10-11");
-    private final LocalDate birthDateOleg = LocalDate.parse("1990-11-02");
     @Mock
     private EmployeeRepository employeeRepository;
 
@@ -37,43 +30,37 @@ class EmployeeServiceImplTest {
     private EmployeeServiceImpl employeeService;
 
     @Mock
-    private EmployeeMapper employeeMapper = Mappers.getMapper(EmployeeMapper.class);
+    private EmployeeMapper employeeMapper;
 
     @Test
     void saveEmployee() {
 
+        EmployeeDto employeeDto = new EmployeeDto();
         Employee employee = new Employee();
-        employee.setFirstName("PETR");
-        employee.setLastName("PETROV");
-        employee.setMiddle_name("PETROVICH");
-        employee.setBirthDate(LocalDate.parse("1997-10-11"));
 
-        EmployeeDto employeeDto = employeeMapper.convertToEmployeeDto(employee);
+        when(employeeMapper.convertToEmployee(employeeDto)).thenReturn(employee);
+        when(employeeRepository.save(employee)).thenReturn(employee);
 
-        when(employeeService.saveEmployee(employeeDto)).thenReturn(employee);
+        Employee savedEmployee = employeeService.saveEmployee(employeeDto);
 
-        Employee saveEmployee = employeeService.saveEmployee(employeeDto);
+        assertNotNull(savedEmployee);
+        assertEquals(employee, savedEmployee);
+        verify(employeeMapper, times(1)).convertToEmployee(employeeDto);
+        verify(employeeRepository, times(1)).save(employee);
 
-        assertNotNull(saveEmployee);
-        assertEquals(employee.getFirstName(), saveEmployee.getFirstName());
-        assertEquals(employee.getLastName(), saveEmployee.getLastName());
-        assertEquals(employee.getMiddle_name(), saveEmployee.getMiddle_name());
-        assertEquals(employee.getBirthDate(), saveEmployee.getBirthDate());
     }
 
     @Test
     void updateEmployee() {
+
         Long employeeId = 1L;
-        String firstName = "IVAN";
-        String lastName = "IVANOV";
-        String middleName = "IVANOVICH";
-        LocalDate birthDate = LocalDate.parse("1993-01-12");
 
         EmployeeDto employeeDto = new EmployeeDto();
-        employeeDto.setFirstName(firstName);
-        employeeDto.setLastName(lastName);
-        employeeDto.setMiddle_name(middleName);
-        employeeDto.setBirthDate(birthDate);
+        employeeDto.setId(employeeId);
+        employeeDto.setFirstName("IVAN");
+        employeeDto.setLastName("IVANOV");
+        employeeDto.setMiddle_name("IVANOVICH");
+        employeeDto.setBirthDate(LocalDate.parse("1993-01-12"));
 
         Employee existingEmployee = new Employee();
         existingEmployee.setId(employeeId);
@@ -84,23 +71,27 @@ class EmployeeServiceImplTest {
 
         Employee updateEmployee = new Employee();
         updateEmployee.setId(employeeId);
-        updateEmployee.setFirstName(firstName);
-        updateEmployee.setLastName(lastName);
-        updateEmployee.setMiddle_name(middleName);
-        updateEmployee.setBirthDate(birthDate);
+        updateEmployee.setFirstName("IVAN");
+        updateEmployee.setLastName("IVANOV");
+        updateEmployee.setMiddle_name("IVANOVICH");
+        updateEmployee.setBirthDate(LocalDate.parse("1993-01-12"));
 
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(existingEmployee));
-        when(employeeRepository.save(existingEmployee)).thenReturn(updateEmployee);
+        when(employeeMapper.convertToEmployee(employeeDto)).thenReturn(updateEmployee);
 
         Employee result = employeeService.updateEmployee(employeeId, employeeDto);
 
         assertNotNull(result);
-        assertEquals(employeeId, result.getId());
-        assertEquals(firstName, result.getFirstName());
-        assertEquals(lastName, result.getLastName());
-        assertEquals(middleName, result.getMiddle_name());
-        assertEquals(birthDate, result.getBirthDate());
+        assertEquals(updateEmployee.getId(), result.getId());
+        assertEquals(updateEmployee.getFirstName(), result.getFirstName());
+        assertEquals(updateEmployee.getLastName(), result.getLastName());
+        assertEquals(updateEmployee.getMiddle_name(), result.getMiddle_name());
+        assertEquals(updateEmployee.getBirthDate(), result.getBirthDate());
+        verify(employeeMapper, times(1)).convertToEmployee(employeeDto);
+
     }
+
+
 
     @Test
     void getEmployeeById() {
@@ -129,54 +120,95 @@ class EmployeeServiceImplTest {
         assertEquals(birthDate, foundEmployee.get().getBirthDate());
     }
 
-//    @Test
-//    void getAllEmployee() {
-//        List<Employee> employees = new ArrayList<>();
-//
-//        Employee employee = Employee.builder().id(0L).lastName("IVANOV").firstName("IVAN")
-//                .middle_name("IVANOVICH").birthDate(birthDateIvan).build();
-//        Employee employee1 = Employee.builder().id(1L).lastName("PETROV").firstName("PETR")
-//                .middle_name("PETROVICH").birthDate(birthDatePetr).build();
-//        Employee employee2 = Employee.builder().id(2L).lastName("SIDOROV").firstName("OLEG")
-//                .middle_name("NIKOLAEVICH").birthDate(birthDateOleg).build();
-//
-//        employees.add(employee);
-//        employees.add(employee1);
-//        employees.add(employee2);
-//
-//        when(employeeService.getAllEmployee()).thenReturn(employees);
-//
-//        List<Employee> result = employeeRepository.findAll();
-//
-//        assertEquals(employees.size(), result.size());
-//        assertEquals(employees.get(0).getFirstName(), result.get(0).getFirstName());
-//        assertEquals(employees.get(0).getLastName(), result.get(0).getLastName());
-//        assertEquals(employees.get(0).getMiddle_name(), result.get(0).getMiddle_name());
-//        assertEquals(employees.get(1).getFirstName(), result.get(1).getFirstName());
-//        assertEquals(employees.get(1).getLastName(), result.get(1).getLastName());
-//        assertEquals(employees.get(1).getMiddle_name(), result.get(1).getMiddle_name());
-//        assertEquals(employees.get(2).getFirstName(), result.get(2).getFirstName());
-//        assertEquals(employees.get(2).getLastName(), result.get(2).getLastName());
-//        assertEquals(employees.get(2).getMiddle_name(), result.get(2).getMiddle_name());
-//    }
 
-//    @Test
-//    void getAllEmployeeByDepartmentAndPost() {
-//        String department = "RISKI";
-//        String post = "JUNIOR";
-//
-//        List<Employee> employees = new ArrayList<>();
-//        //employees.add(new Employee(1L, "IVANOV", "IVAN", "IVANOVICH", birthDateIvan, 1, 1));
-//        when(employeeService.getAllEmployee()).thenReturn(employees);
-//
-//        List<Employee> result = employeeRepository.findByDepartmentAndPost(department, post);
-//
-//        //assertEquals(employees.size(), result.size());
-//        assertEquals(employees.get(0).getFirstName(), result.get(0).getFirstName());
-//        assertEquals(employees.get(0).getLastName(), result.get(0).getLastName());
-//        assertEquals(employees.get(0).getMiddle_name(), result.get(0).getMiddle_name());
-//    }
+    @Test
+    void getAllEmployee() {
 
+        Employee employee1 = new Employee();
+        employee1.setId(1L);
+        employee1.setFirstName("IGOR");
+        employee1.setLastName("KAPRANOV");
+        employee1.setMiddle_name("NICOLAEVICH");
+        employee1.setBirthDate(LocalDate.parse("1993-01-12"));
+
+        Employee employee2 = new Employee();
+        employee2.setId(2L);
+        employee2.setFirstName("PETR");
+        employee2.setLastName("PETROV");
+        employee2.setMiddle_name("PETROVICH");
+        employee2.setBirthDate(LocalDate.parse("1995-01-12"));
+
+        List<Employee> employeeList = Arrays.asList(employee1, employee2);
+
+        when(employeeRepository.findAll()).thenReturn(employeeList);
+
+        EmployeeDto employeeDto1 = new EmployeeDto();
+        employeeDto1.setId(1L);
+        employeeDto1.setFirstName("IGOR_DTO");
+        employeeDto1.setLastName("KAPRANOV_DTO");
+        employeeDto1.setMiddle_name("NICOLAEVICH_DTO");
+        employeeDto1.setBirthDate(LocalDate.parse("1993-01-12"));
+
+        EmployeeDto employeeDto2 = new EmployeeDto();
+        employeeDto2.setId(2L);
+        employeeDto2.setFirstName("PETR_DTO");
+        employeeDto2.setLastName("PETROV_DTO");
+        employeeDto2.setMiddle_name("PETROVICH_DTO");
+        employeeDto2.setBirthDate(LocalDate.parse("1995-01-12"));
+
+        List<EmployeeDto> expectedEmployeeListDto = Arrays.asList(employeeDto1, employeeDto2);
+
+        when(employeeMapper.convertToEmployeeDto(employee1)).thenReturn(employeeDto1);
+        when(employeeMapper.convertToEmployeeDto(employee2)).thenReturn(employeeDto2);
+
+        List<EmployeeDto> actualEmployeeListDto = employeeService.getAllEmployee();
+
+        assertNotNull(actualEmployeeListDto);
+        assertEquals(expectedEmployeeListDto.size(), actualEmployeeListDto.size());
+        assertEquals(expectedEmployeeListDto.get(0).getFirstName(), actualEmployeeListDto.get(0).getFirstName());
+        assertEquals(expectedEmployeeListDto.get(0).getLastName(), actualEmployeeListDto.get(0).getLastName());
+        assertEquals(expectedEmployeeListDto.get(0).getMiddle_name(), actualEmployeeListDto.get(0).getMiddle_name());
+        assertEquals(expectedEmployeeListDto.get(0).getBirthDate(), actualEmployeeListDto.get(0).getBirthDate());
+        assertEquals(expectedEmployeeListDto.get(1).getFirstName(), actualEmployeeListDto.get(1).getFirstName());
+        assertEquals(expectedEmployeeListDto.get(1).getLastName(), actualEmployeeListDto.get(1).getLastName());
+        assertEquals(expectedEmployeeListDto.get(1).getMiddle_name(), actualEmployeeListDto.get(1).getMiddle_name());
+        assertEquals(expectedEmployeeListDto.get(1).getBirthDate(), actualEmployeeListDto.get(1).getBirthDate());
+        verify(employeeRepository, times(1)).findAll();
+        verify(employeeMapper, times(2)).convertToEmployeeDto(any());
+    }
+
+    @Test
+    void getAllEmployeeByDepartmentAndPost() {
+        String department = "RISKI";
+        String post = "JUNIOR";
+
+        Department expectedDepartment = new Department();
+        expectedDepartment.setId(1L);
+        expectedDepartment.setDepartmentName(department);
+
+        Post expectedPost = new Post();
+        expectedPost.setId(1L);
+        expectedPost.setPostName(post);
+
+        Employee expectedEmployee = new Employee();
+        expectedEmployee.setId(1L);
+        expectedEmployee.setFirstName("Sasha");
+        expectedEmployee.setLastName("Sidorova");
+        expectedEmployee.setMiddle_name("Olegovna");
+        expectedEmployee.setBirthDate(LocalDate.parse("1990-01-23"));
+        expectedEmployee.setDepartment(expectedDepartment);
+        expectedEmployee.setPost(expectedPost);
+
+        when(employeeRepository.findEmployeeByDepartmentDepartmentNameAndPostPostName(department, post))
+                        .thenReturn(expectedEmployee);
+
+        Employee actualEmployee = employeeService.findEmployeeByDepartmentAndPost(department, post);
+
+        verify(employeeRepository, times(1)).findEmployeeByDepartmentDepartmentNameAndPostPostName(department, post);
+        assertNotNull(actualEmployee);
+        assertEquals(expectedEmployee, actualEmployee);
+
+    }
 
     @Test
     void deleteEmployeeById() {

@@ -32,14 +32,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department editDepartment = departmentMapper.convertToDepartment(departmentDto);
         editDepartment.setId(id);
         if(editDepartment.getDepartmentName() == null) {
-            editDepartment.setDepartmentName(departmentRepository.getDepartmentById(id).getDepartmentName());
+            editDepartment.setDepartmentName(departmentRepository.findById(id).get().getDepartmentName());
         }
         return departmentRepository.save(editDepartment);
     }
 
     @Override
     public Optional<Department> getDepartmentById(Long id) {
-        return Optional.ofNullable(departmentRepository.getDepartmentById(id));
+        return departmentRepository.findById(id);
     }
 
     @Override

@@ -2,9 +2,7 @@ package com.example.demo.services.interfaces;
 
 
 import com.example.demo.dto.EmployeeDto;
-import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
-import com.example.demo.entities.Post;
 
 import java.util.List;
 import java.util.Optional;

@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
         Post editPost = postMapper.convertToPost(postDto);
         editPost.setId(id);
         if(editPost.getPostName() == null) {
-            editPost.setPostName(postRepository.getPostById(id).getPostName());
+            editPost.setPostName(postRepository.findById(id).get().getPostName());
         }
         return postRepository.save(editPost);
     }

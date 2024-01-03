@@ -1,10 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.DepartmentDto;
 import com.example.demo.dto.EmployeeDto;
-import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
-import com.example.demo.entities.Post;
 import com.example.demo.mappers.EmployeeMapper;
 import com.example.demo.repositories.EmployeeRepository;
 import com.example.demo.services.interfaces.EmployeeService;
@@ -34,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee updateEmployee(Long id, EmployeeDto employeeDto) {
 
-        Employee editEmployee = employeeRepository.getEmployeeById(id);
+        Employee editEmployee = employeeRepository.findById(id).get();
         Employee employee = employeeMapper.convertToEmployee(employeeDto);
 
         editEmployee.setLastName(employee.getLastName());

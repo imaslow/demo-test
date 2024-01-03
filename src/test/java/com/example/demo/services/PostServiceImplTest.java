@@ -1,20 +1,16 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.DepartmentDto;
 import com.example.demo.dto.PostDto;
-import com.example.demo.entities.Department;
 import com.example.demo.entities.Post;
-import com.example.demo.mappers.DepartmentMapper;
 import com.example.demo.mappers.PostMapper;
 import com.example.demo.repositories.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,53 +27,57 @@ class PostServiceImplTest {
     private PostServiceImpl postService;
 
     @Mock
-    private final PostMapper postMapper = Mappers.getMapper(PostMapper.class);
+    private PostMapper postMapper;
 
     @Test
     void savePost() {
 
         Post post = new Post();
-        post.setPostName("JUNIOR");
+        PostDto postDto = new PostDto();
 
-        PostDto postDto = postMapper.convertToPostDto(post);
-
-        when(postService.savePost(postDto)).thenReturn(post);
+        when(postMapper.convertToPost(postDto)).thenReturn(post);
+        when(postRepository.save(post)).thenReturn(post);
 
         Post savePost = postService.savePost(postDto);
 
         assertNotNull(savePost);
-        assertEquals(post.getPostName(), savePost.getPostName());
+        assertEquals(post, savePost);
+        verify(postMapper, times(1)).convertToPost(postDto);
+        verify(postRepository, times(1)).save(post);
+
     }
 
     @Test
     void updatePost() {
-        Long postId = 1L;
-        String postName = "MIDDLE";
+        Long id = 1L;
+        PostDto postDto = new PostDto();
+        postDto.setId(id);
+        postDto.setPostName("MIDDLE");
 
         Post existingPost = new Post();
-        existingPost.setId(postId);
+        existingPost.setId(id);
         existingPost.setPostName("JUNIOR");
 
-        Post updatePost = new Post();
-        updatePost.setId(postId);
-        updatePost.setPostName(postName);
+        Post updatedPost = new Post();
+        updatedPost.setId(id);
+        updatedPost.setPostName("MIDDLE");
 
-        //PostDto postDto = postMapper.convertToPostDto(updatePost);
+        when(postMapper.convertToPost(postDto)).thenReturn(updatedPost);
+        when(postRepository.save(updatedPost)).thenReturn(updatedPost);
 
-        when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
-        when(postRepository.save(existingPost)).thenReturn(updatePost);
+        Post result = postService.updatePost(id, postDto);
 
-        PostDto postDto = postMapper.convertToPostDto(updatePost);
-
-        Post result = postService.updatePost(postId, postDto);
-
+        assertEquals(updatedPost.getPostName(), result.getPostName());
         assertNotNull(result);
-        assertEquals(postId, result.getId());
-        assertEquals(postName, result.getPostName());
+        assertEquals(id, result.getId());
+        verify(postRepository, times(1)).save(updatedPost);
+        verify(postMapper, times(1)).convertToPost(postDto);
+
     }
 
     @Test
     void getPostById() {
+
         Long postId = 1L;
         String postName = "MIDDLE";
 
@@ -92,29 +92,35 @@ class PostServiceImplTest {
         assertNotNull(foundPost);
         assertEquals(postId, foundPost.get().getId());
         assertEquals(postName, foundPost.get().getPostName());
+
     }
 
-//    @Test
-//    void getAllPosts() {
-//        List<Post> posts = new ArrayList<>();
-//
-//        Post post = Post.builder().id(0L).postName("JUNIOR").build();
-//        Post post1 = Post.builder().id(1L).postName("MIDDLE").build();
-//        Post post2 = Post.builder().id(2L).postName("SENIOR").build();
-//
-//        posts.add(post);
-//        posts.add(post1);
-//        posts.add(post2);
-//
-//        when(postService.getAllPosts()).thenReturn(posts);
-//
-//        List<Post> result = postRepository.findAll();
-//
-//        assertEquals(posts.size(), result.size());
-//        assertEquals(posts.get(0).getPostName(), result.get(0).getPostName());
-//        assertEquals(posts.get(1).getPostName(), result.get(1).getPostName());
-//        assertEquals(posts.get(2).getPostName(), result.get(2).getPostName());
-//    }
+    @Test
+    void getAllPosts() {
+
+        Post post1 = new Post(1L, "JUNIOR");
+        Post post2 = new Post(2L, "MIDDLE");
+        List<Post> posts = Arrays.asList(post1, post2);
+
+        when(postRepository.findAll()).thenReturn(posts);
+
+        PostDto postDto1 = new PostDto(1L, "JUNIOR_DTO");
+        PostDto postDto2 = new PostDto(2L, "MIDDLE_DTO");
+        List<PostDto> expectedPostDtos = Arrays.asList(postDto1, postDto2);
+
+        when(postMapper.convertToPostDto(post1)).thenReturn(postDto1);
+        when(postMapper.convertToPostDto(post2)).thenReturn(postDto2);
+
+        List<PostDto> actualPostDtos = postService.getAllPosts();
+
+        assertNotNull(actualPostDtos);
+        assertEquals(expectedPostDtos.size(), actualPostDtos.size());
+        assertEquals(expectedPostDtos.get(0).getPostName(), actualPostDtos.get(0).getPostName());
+        assertEquals(expectedPostDtos.get(1).getPostName(), actualPostDtos.get(1).getPostName());
+        verify(postRepository, times(1)).findAll();
+        verify(postMapper, times(2)).convertToPostDto(any());
+
+    }
 
     @Test
     void deletePostById() {

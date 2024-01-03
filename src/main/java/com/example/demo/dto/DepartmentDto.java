@@ -12,14 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentDto {
 
     private Long id;
 
     private String departmentName;
 
-//    public DepartmentDto(Department department) {
-//        this.id = department.getId();
-//        this.departmentName = department.getDepartmentName();
-//    }
 }
