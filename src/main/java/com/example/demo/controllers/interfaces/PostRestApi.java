@@ -1,7 +1,6 @@
 package com.example.demo.controllers.interfaces;
 
 import com.example.demo.dto.PostDto;
-import com.example.demo.entities.Post;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

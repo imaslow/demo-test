@@ -30,7 +30,7 @@ class PostServiceImplTest {
     private PostMapper postMapper;
 
     @Test
-    void savePost() {
+    void shouldSavePost() {
 
         Post post = new Post();
         PostDto postDto = new PostDto();
@@ -48,7 +48,7 @@ class PostServiceImplTest {
     }
 
     @Test
-    void updatePost() {
+    void shouldUpdatePost() {
         Long id = 1L;
         PostDto postDto = new PostDto();
         postDto.setId(id);
@@ -76,7 +76,7 @@ class PostServiceImplTest {
     }
 
     @Test
-    void getPostById() {
+    void shouldGetPostById() {
 
         Long postId = 1L;
         String postName = "MIDDLE";
@@ -96,7 +96,7 @@ class PostServiceImplTest {
     }
 
     @Test
-    void getAllPosts() {
+    void shouldGetAllPosts() {
 
         Post post1 = new Post(1L, "JUNIOR");
         Post post2 = new Post(2L, "MIDDLE");
@@ -123,7 +123,7 @@ class PostServiceImplTest {
     }
 
     @Test
-    void deletePostById() {
+    void shouldDeletePostById() {
         Long departmentId = 2L;
 
         postService.deletePostById(departmentId);

@@ -33,7 +33,7 @@ class EmployeeServiceImplTest {
     private EmployeeMapper employeeMapper;
 
     @Test
-    void saveEmployee() {
+    void shouldSaveEmployee() {
 
         EmployeeDto employeeDto = new EmployeeDto();
         Employee employee = new Employee();
@@ -51,7 +51,7 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    void updateEmployee() {
+    void shouldUpdateEmployee() {
 
         Long employeeId = 1L;
 
@@ -94,7 +94,7 @@ class EmployeeServiceImplTest {
 
 
     @Test
-    void getEmployeeById() {
+    void shouldGetEmployeeById() {
         Long employeeId = 1L;
         String firstName = "IVAN";
         String lastName = "IVANOV";
@@ -122,7 +122,7 @@ class EmployeeServiceImplTest {
 
 
     @Test
-    void getAllEmployee() {
+    void shouldGetAllEmployee() {
 
         Employee employee1 = new Employee();
         employee1.setId(1L);
@@ -178,7 +178,7 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    void getAllEmployeeByDepartmentAndPost() {
+    void shouldGetAllEmployeeByDepartmentAndPost() {
         String department = "RISKI";
         String post = "JUNIOR";
 
@@ -204,14 +204,15 @@ class EmployeeServiceImplTest {
 
         Employee actualEmployee = employeeService.findEmployeeByDepartmentAndPost(department, post);
 
-        verify(employeeRepository, times(1)).findEmployeeByDepartmentDepartmentNameAndPostPostName(department, post);
+        verify(employeeRepository, times(1))
+                .findEmployeeByDepartmentDepartmentNameAndPostPostName(department, post);
         assertNotNull(actualEmployee);
         assertEquals(expectedEmployee, actualEmployee);
 
     }
 
     @Test
-    void deleteEmployeeById() {
+    void shouldDeleteEmployeeById() {
         Long employeeId = 2L;
 
         employeeService.deleteEmployeeById(employeeId);

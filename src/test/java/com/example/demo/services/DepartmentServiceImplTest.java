@@ -2,24 +2,14 @@ package com.example.demo.services;
 
 import com.example.demo.dto.DepartmentDto;
 import com.example.demo.entities.Department;
-import com.example.demo.entities.Post;
 import com.example.demo.mappers.DepartmentMapper;
 import com.example.demo.repositories.DepartmentRepository;
-import com.example.demo.services.interfaces.DepartmentService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +30,7 @@ class DepartmentServiceImplTest {
     private DepartmentMapper departmentMapper;
 
     @Test
-    void saveDepartment() {
+    void shouldSaveDepartment() {
 
         DepartmentDto departmentDto = new DepartmentDto();
         Department department = new Department();
@@ -58,7 +48,7 @@ class DepartmentServiceImplTest {
     }
 
     @Test
-    void updateDepartment() {
+    void shouldUpdateDepartment() {
 
         Long id = 1L;
         DepartmentDto departmentDto = new DepartmentDto();
@@ -87,7 +77,7 @@ class DepartmentServiceImplTest {
     }
 
     @Test
-    void getDepartmentById() {
+    void shouldGetDepartmentById() {
         Long departmentId = 1L;
         String departmentName = "RISKI";
 
@@ -105,7 +95,7 @@ class DepartmentServiceImplTest {
     }
 
     @Test
-    void getAllDepartment() {
+    void shouldGetAllDepartment() {
 
         Department department1 = new Department(1L, "RISKI");
         Department department2 = new Department(2L, "BIGDATA");
@@ -132,7 +122,7 @@ class DepartmentServiceImplTest {
     }
 
     @Test
-    void deleteDepartmentById() {
+    void shouldDeleteDepartmentById() {
         Long departmentId = 2L;
 
         departmentService.deleteDepartmentById(departmentId);

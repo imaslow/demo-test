@@ -1,23 +1,18 @@
 package com.example.demo.controllers;
 
 import com.example.demo.controllers.interfaces.EmployeeRestApi;
-import com.example.demo.dto.DepartmentDto;
 import com.example.demo.dto.EmployeeDto;
-import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
-import com.example.demo.entities.Post;
 import com.example.demo.mappers.EmployeeMapper;
 import com.example.demo.services.interfaces.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController

@@ -4,8 +4,6 @@ import javax.persistence.*;
 
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "department")
 @Getter

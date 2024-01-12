@@ -1,9 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.controllers.interfaces.PostRestApi;
-import com.example.demo.dto.EmployeeDto;
 import com.example.demo.dto.PostDto;
-import com.example.demo.entities.Employee;
 import com.example.demo.entities.Post;
 import com.example.demo.mappers.PostMapper;
 import com.example.demo.services.interfaces.PostService;

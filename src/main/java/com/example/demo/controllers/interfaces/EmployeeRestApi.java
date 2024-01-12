@@ -1,12 +1,7 @@
 package com.example.demo.controllers.interfaces;
 
 import com.example.demo.dto.EmployeeDto;
-import com.example.demo.entities.Department;
-import com.example.demo.entities.Employee;
-import com.example.demo.entities.Post;
 import io.swagger.annotations.*;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
