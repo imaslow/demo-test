@@ -68,7 +68,8 @@ class EmployeeRestControllerIT extends IntegrationTestBase {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(employeeDto)));
     }
 
     @Test
