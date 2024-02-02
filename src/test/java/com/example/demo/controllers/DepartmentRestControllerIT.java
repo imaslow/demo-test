@@ -33,7 +33,6 @@ class DepartmentRestControllerIT extends IntegrationTestBase {
     @Test
     void shouldGetAllDepartments() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/department"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -41,7 +40,6 @@ class DepartmentRestControllerIT extends IntegrationTestBase {
     void shouldGetDepartmentById() throws Exception {
         Long id = 3L;
         mockMvc.perform(get("http://localhost:8080/api/department/{id}", id))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper
                         .writeValueAsString(departmentService.getDepartmentById(id).get())));
@@ -50,12 +48,10 @@ class DepartmentRestControllerIT extends IntegrationTestBase {
     @Test
     void shouldCreateDepartment() throws Exception {
         DepartmentDto departmentDto = new DepartmentDto(4L, "TEST_DEPARTMENT");
-        System.out.println(objectMapper.writeValueAsString(departmentDto));
         mockMvc.perform(post("http://localhost:8080/api/department")
                     .content(objectMapper.writeValueAsString(departmentDto))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(departmentDto)));
     }
@@ -70,7 +66,6 @@ class DepartmentRestControllerIT extends IntegrationTestBase {
         mockMvc.perform(patch("http://localhost:8080/api/department/{id}", id)
                 .content(objectMapper.writeValueAsString(updatableDepartment))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(updatableDepartment)))
                 .andExpect(result -> assertThat(departmentRepository.count(), equalTo(numberOfDepartment)));
@@ -80,7 +75,6 @@ class DepartmentRestControllerIT extends IntegrationTestBase {
     void shouldDeleteDepartmentById() throws Exception {
         Long id = 3L;
         mockMvc.perform(delete("http://localhost:8080/api/department/{id}", id))
-                .andDo(print())
                 .andExpect(status().isNoContent());
     }
 }

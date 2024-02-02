@@ -45,7 +45,6 @@ class EmployeeRestControllerIT extends IntegrationTestBase {
     void shouldGetEmployeeById() throws Exception {
         Long id = 1L;
         mockMvc.perform(get("http://localhost:8080/api/employee/{id}", id))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper
                         .writeValueAsString(employeeService.getEmployeeById(id).get())));
@@ -62,12 +61,10 @@ class EmployeeRestControllerIT extends IntegrationTestBase {
         employeeDto.setDepartment(new Department(1L, "RISKI"));
         employeeDto.setPost(new Post(1L, "JUNIOR"));
 
-        System.out.println(objectMapper.writeValueAsString(employeeDto));
         mockMvc.perform(post("http://localhost:8080/api/employee")
                         .content(objectMapper.writeValueAsString(employeeDto))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(employeeDto)));
     }
@@ -82,7 +79,6 @@ class EmployeeRestControllerIT extends IntegrationTestBase {
         mockMvc.perform(patch("http://localhost:8080/api/employee/{id}", id)
                         .content(objectMapper.writeValueAsString(updatableEmployee))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(updatableEmployee)))
                 .andExpect(result -> assertThat(employeeRepository.count(), equalTo(numberOfEmployee)));
@@ -95,7 +91,6 @@ class EmployeeRestControllerIT extends IntegrationTestBase {
         mockMvc.perform(get("http://localhost:8080/api/employee/filtered")
                 .param("departmentName", departmentName)
                 .param("postName", postName))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(employeeService
                         .findEmployeeByDepartmentAndPost(departmentName, postName))));
@@ -105,7 +100,6 @@ class EmployeeRestControllerIT extends IntegrationTestBase {
     void shouldDeleteEmployeeById() throws Exception {
         Long id = 3L;
         mockMvc.perform(delete("http://localhost:8080/api/employee/{id}", id))
-                .andDo(print())
                 .andExpect(status().isNoContent());
     }
 }

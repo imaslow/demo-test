@@ -33,7 +33,6 @@ class PostRestControllerIT extends IntegrationTestBase {
     @Test
     void shouldGetAllPosts() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/post"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -41,7 +40,6 @@ class PostRestControllerIT extends IntegrationTestBase {
     void shouldGetPostById() throws Exception {
         Long id = 2L;
         mockMvc.perform(get("http://localhost:8080/api/post/{id}", id))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper
                         .writeValueAsString(postService.getPostById(id).get())));
@@ -50,12 +48,11 @@ class PostRestControllerIT extends IntegrationTestBase {
     @Test
     void shouldCreatePost() throws Exception {
         PostDto postDto = new PostDto(4L, "TEST_POST");
-        System.out.println(objectMapper.writeValueAsString(postDto));
+
         mockMvc.perform(post("http://localhost:8080/api/post")
                         .content(objectMapper.writeValueAsString(postDto))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(postDto)));
     }
@@ -70,7 +67,6 @@ class PostRestControllerIT extends IntegrationTestBase {
         mockMvc.perform(patch("http://localhost:8080/api/post/{id}", id)
                         .content(objectMapper.writeValueAsString(updatablePost))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(updatablePost)))
                 .andExpect(result -> assertThat(postRepository.count(), equalTo(numberOfPost)));
@@ -80,7 +76,6 @@ class PostRestControllerIT extends IntegrationTestBase {
     void shouldDeletePostById() throws Exception {
         Long id = 1L;
         mockMvc.perform(delete("http://localhost:8080/api/post/{id}", id))
-                .andDo(print())
                 .andExpect(status().isNoContent());
     }
 }

@@ -1,12 +1,12 @@
-FROM maven:3.6.0-jdk-11-slim AS build
+FROM maven:3.6.0-jdk-11-slim as build
 
 WORKDIR /build
-COPY pom.xml .
-COPY src /build/src
-RUN mvn -f /build/pom.xml clean package
+COPY /pom.xml .
+COPY /src /build/src
+RUN mvn -f /build/pom.xml clean install -D skipTests
 
 FROM adoptopenjdk:11-jre-hotspot
-COPY --from=build /build/target/demo-test.jar demo-test.jar
+
+COPY --from=build /build/target/*.jar demo.jar
 EXPOSE 8080
-EXPOSE 5005
-ENTRYPOINT ["java", "-jar", "demo-test.jar", "java $JAVA_OPTS -jar /demo-test.jar"]
+ENTRYPOINT ["java", "-jar", "demo.jar"]

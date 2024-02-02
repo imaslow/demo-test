@@ -17,12 +17,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: root
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
 
 
